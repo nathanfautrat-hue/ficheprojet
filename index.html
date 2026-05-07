@@ -174,12 +174,56 @@
 
   </div>
   <p style="text-align:center;font-size:12px;color:#bbb;margin-top:1.5rem">Studio FTT — Creation de sites web</p>
-  <div style="max-width:620px;margin:2rem auto 0;padding:1.5rem;font-size:11px;color:#999;line-height:1.6;border-top:1px solid #eee">
-    <p style="margin-bottom:0.75rem"><strong style="color:#666">Mentions legales</strong></p>
-    <p>Editeur : Nathan Fautrat — Studio FTT, 7 rue du Fromenteau, 72270 Arthezé, France. SIRET : 10404864000015. Email : <a href="mailto:contactstudioftt@gmail.com" style="color:#FF5A47">contactstudioftt@gmail.com</a>. Hebergement : Cloudflare Inc., 101 Townsend Street, San Francisco CA 94107, USA.</p>
-    <p style="margin-top:0.75rem"><strong style="color:#666">Donnees personnelles</strong> — Les informations saisies dans ce formulaire (nom, email, telephone, donnees projet) sont collectees uniquement pour repondre a votre demande et etablir un devis. Elles sont conservees 3 ans maximum, ne sont jamais revendues. Conformement au RGPD, vous disposez d'un droit d'acces, de rectification et de suppression : <a href="mailto:contactstudioftt@gmail.com" style="color:#FF5A47">contactstudioftt@gmail.com</a>. Reclamation possible aupres de la CNIL (cnil.fr).</p>
+  <p style="text-align:center;font-size:11px;margin-top:0.75rem;margin-bottom:2rem">
+    <button onclick="openModal('ml')" style="background:none;border:none;color:#bbb;cursor:pointer;font-size:11px;text-decoration:underline;padding:0">Mentions legales</button>
+    &nbsp;·&nbsp;
+    <button onclick="openModal('rgpd')" style="background:none;border:none;color:#bbb;cursor:pointer;font-size:11px;text-decoration:underline;padding:0">Donnees personnelles</button>
+    &nbsp;·&nbsp;
+    <button onclick="openModal('cgv')" style="background:none;border:none;color:#bbb;cursor:pointer;font-size:11px;text-decoration:underline;padding:0">CGV</button>
+  </p>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay" onclick="closeModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;padding:1rem;overflow-y:auto">
+  <div onclick="event.stopPropagation()" style="background:#fff;border-radius:8px;max-width:600px;margin:2rem auto;padding:2rem;font-size:12px;color:#555;line-height:1.7;position:relative">
+    <button onclick="closeModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:20px;cursor:pointer;color:#999;line-height:1">×</button>
+    <div id="modal-content"></div>
   </div>
 </div>
+
+<script>
+var MODALS = {
+  ml: '<h2 style="font-size:16px;font-weight:600;color:#0d0d0d;margin-bottom:1.25rem">Mentions légales</h2>'
+    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Éditeur</strong><br>Nathan Fautrat — Studio FTT<br>7 rue du Fromenteau, 72270 Arthezé, France<br>SIRET : 10404864000015<br>Email : <a href="mailto:contactstudioftt@gmail.com" style="color:#FF5A47">contactstudioftt@gmail.com</a></p>'
+    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Hébergement</strong><br>Cloudflare Inc., 101 Townsend Street, San Francisco CA 94107, USA</p>'
+    + '<p><strong style="color:#333">Hébergement</strong><br>Cloudflare Inc., 101 Townsend Street, San Francisco CA 94107, USA</p>',
+
+  rgpd: '<h2 style="font-size:16px;font-weight:600;color:#0d0d0d;margin-bottom:1.25rem">Données personnelles</h2>'
+    + '<p style="margin-bottom:0.75rem">Les informations saisies dans ce formulaire (nom, email, téléphone, données projet) sont collectées uniquement pour répondre à votre demande et établir un devis.</p>'
+    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Conservation</strong><br>3 ans maximum. Elles ne sont jamais revendues ni transmises à des tiers.</p>'
+    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Vos droits (RGPD)</strong><br>Accès, rectification, suppression, portabilité. Contactez-nous : <a href="mailto:contactstudioftt@gmail.com" style="color:#FF5A47">contactstudioftt@gmail.com</a></p>'
+    + '<p><strong style="color:#333">Réclamation</strong><br>Auprès de la CNIL : <a href="https://www.cnil.fr" target="_blank" style="color:#FF5A47">cnil.fr</a></p>',
+
+  cgv: '<h2 style="font-size:16px;font-weight:600;color:#0d0d0d;margin-bottom:1.25rem">Conditions Générales de Vente</h2>'
+    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Objet</strong><br>Les présentes CGV régissent les prestations de création de sites web sur-mesure réalisées par Studio FTT (Nathan Fautrat, SIRET 10404864000015) pour tout client ayant accepté un devis.</p>'
+    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Commande</strong><br>Toute prestation débute après acceptation écrite du devis (email ou signature). Le devis vaut bon de commande.</p>'
+    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Paiement</strong><br>Un acompte de 50 % est dû à la commande, le solde à la livraison du site. Paiement par virement bancaire. Tout retard de paiement entraîne des pénalités de 10 %/an.</p>'
+    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Délais</strong><br>Les délais indiqués (3 jours à 2 semaines) sont donnés à titre indicatif et conditionnés à la fourniture des contenus par le client dans les temps convenus.</p>'
+    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Modifications</strong><br>1 modification gratuite est incluse à la livraison. Au-delà, les modifications sont facturées 50 €/h ou couvertes par le forfait maintenance (35 €/mois, 3 modifications incluses).</p>'
+    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Propriété intellectuelle</strong><br>Les droits sur le site sont transférés au client après règlement complet. Studio FTT conserve le droit de mentionner la réalisation à titre de référence.</p>'
+    + '<p><strong style="color:#333">Droit applicable</strong><br>Droit français. En cas de litige, compétence exclusive du Tribunal de Commerce du Mans.</p>'
+};
+
+function openModal(key) {
+  document.getElementById('modal-content').innerHTML = MODALS[key];
+  document.getElementById('modal-overlay').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modal-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
 
 <script>
 var cur = 1;
