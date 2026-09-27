@@ -1,340 +1,406 @@
 <!DOCTYPE html>
-<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fiche Projet — Studio FTT</title>
+  <meta name="robots" content="noindex, nofollow">
+  <title>Fiche projet — Studio FTT</title>
+  <link rel="icon" href="logo_ftt.png">
   <style>
+    :root { --red: #E8352A; --red-soft: rgba(232,53,42,0.1); --ink: #0d0d0d; --muted: #6b6b6b; --line: #e2e2e2; --bg: #f6f5f3; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f9f9f9; color: #0d0d0d; min-height: 100vh; }
-    .page { max-width: 620px; margin: 0 auto; padding: 2rem 1.5rem; }
-    .header { text-align: center; margin-bottom: 2rem; }
-    .header h1 { font-size: 28px; font-weight: 600; color: #0d0d0d; margin-bottom: 6px; }
-    .header p { font-size: 13px; color: #999; }
-    .card { background: #fff; border-radius: 8px; padding: 2rem; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-    .section-title { font-size: 18px; font-weight: 600; color: #FF5A47; margin-bottom: 1.5rem; }
-    .field { margin-bottom: 1.25rem; }
-    .field-label { display: block; font-size: 13px; font-weight: 600; color: #0d0d0d; margin-bottom: 6px; }
-    input[type="text"], input[type="email"], input[type="tel"], select, textarea {
-      width: 100%; padding: 10px 12px; font-size: 14px; font-family: inherit;
-      border: 1px solid #ddd; border-radius: 4px; background: #fff; color: #0d0d0d;
-    }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: #FF5A47; box-shadow: 0 0 0 3px rgba(255,90,71,0.1); }
-    textarea { resize: vertical; min-height: 80px; }
-    .checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .checkbox-item { display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; }
-    .checkbox-item input { width: 16px; height: 16px; cursor: pointer; accent-color: #FF5A47; flex-shrink: 0; }
-    .btn-row { display: flex; gap: 12px; margin-top: 2rem; }
-    .btn { flex: 1; padding: 13px; font-size: 14px; font-weight: 600; border-radius: 4px; cursor: pointer; border: none; }
-    .btn-primary { background: #FF5A47; color: #fff; }
-    .btn-secondary { background: #fff; color: #0d0d0d; border: 1px solid #ddd; }
-    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-    .progress-bar { height: 3px; background: #f0f0f0; border-radius: 2px; margin-bottom: 2rem; overflow: hidden; }
-    .progress-fill { height: 100%; background: #FF5A47; border-radius: 2px; transition: width 0.3s; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+    .page { max-width: 640px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+    .header { display: flex; align-items: center; gap: 14px; margin-bottom: 1.5rem; }
+    .header img { width: 44px; height: 44px; border-radius: 10px; }
+    .header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+    .header p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .progress { height: 4px; background: #e9e7e3; border-radius: 4px; margin-bottom: 1.5rem; overflow: hidden; }
+    .progress-fill { height: 100%; width: 20%; background: var(--red); border-radius: 4px; transition: width .3s; }
+    .card { background: #fff; border-radius: 12px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
     .step { display: none; }
     .step.active { display: block; }
-    .success { text-align: center; padding: 2rem 0; }
-    .success .check { font-size: 56px; margin-bottom: 1rem; }
-    .success h2 { font-size: 24px; font-weight: 600; margin-bottom: 0.75rem; }
-    .success p { font-size: 15px; color: #666; line-height: 1.6; margin-bottom: 2rem; }
-    @media (max-width: 480px) { .checkbox-grid { grid-template-columns: 1fr; } .page { padding: 1.5rem 1rem; } }
+    .section-title { font-size: 18px; font-weight: 700; margin-bottom: .35rem; }
+    .section-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.5rem; }
+    .field { margin-bottom: 1.1rem; }
+    .field-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .req { color: var(--red); }
+    input[type=text], input[type=email], input[type=tel], input[type=url], select, textarea {
+      width: 100%; padding: 11px 12px; font-size: 15px; font-family: inherit; color: var(--ink);
+      border: 1px solid var(--line); border-radius: 6px; background: #fff;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 3px var(--red-soft); }
+    .invalid { border-color: var(--red) !important; }
+    textarea { resize: vertical; min-height: 84px; }
+    .other { margin-top: 8px; display: none; }
+    .other.show { display: block; }
+    .error { display: none; margin-top: 1rem; padding: 10px 12px; border-radius: 6px; background: var(--red-soft); color: #a3231b; font-size: 13px; }
+    .error.show { display: block; }
+    .checks { display: grid; gap: 10px; }
+    .check { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; cursor: pointer; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; }
+    .check input { width: 17px; height: 17px; margin-top: 1px; accent-color: var(--red); flex-shrink: 0; }
+    .check small { display: block; color: var(--muted); font-size: 12px; }
+    .btn-row { display: flex; gap: 12px; margin-top: 1.75rem; }
+    .btn { flex: 1; padding: 13px; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1px solid transparent; font-family: inherit; }
+    .btn-primary { background: var(--red); color: #fff; }
+    .btn-primary:hover { background: #c92b21; }
+    .btn-secondary { background: #fff; color: var(--ink); border-color: var(--line); }
+    .btn:disabled { opacity: .6; cursor: not-allowed; }
+    .legal-note { font-size: 12px; color: var(--muted); margin-top: 1rem; line-height: 1.5; }
+    .legal-note a, .footer a { color: var(--muted); }
+    .success { text-align: center; padding: 1.5rem 0; }
+    .success .tick { width: 56px; height: 56px; border-radius: 50%; background: var(--red-soft); color: var(--red); font-size: 28px; line-height: 56px; margin: 0 auto 1rem; }
+    .success h2 { font-size: 22px; margin-bottom: .6rem; }
+    .success p { font-size: 15px; color: var(--muted); line-height: 1.6; margin-bottom: 1.5rem; }
+    .hp { position: absolute; left: -9999px; }
+    .footer { text-align: center; font-size: 12px; color: var(--muted); margin-top: 1.5rem; line-height: 1.8; }
   </style>
 </head>
 <body>
 <div class="page">
   <div class="header">
-    <h1>Fiche Projet</h1>
-    <p id="step-indicator">Etape 1 sur 5</p>
+    <img src="logo_ftt.png" alt="Studio FTT">
+    <div>
+      <h1>Fiche projet</h1>
+      <p id="step-indicator">Étape 1 sur 5</p>
+    </div>
   </div>
-  <div class="progress-bar">
-    <div class="progress-fill" id="progress" style="width:20%"></div>
-  </div>
+  <div class="progress"><div class="progress-fill" id="progress"></div></div>
+
   <div class="card">
+    <input type="text" id="gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
     <div class="step active" id="step-1">
-      <div class="section-title">Informations generales</div>
-      <div class="field"><label class="field-label">Nom de l'entreprise *</label><input type="text" id="companyName"></div>
-      <div class="field"><label class="field-label">Responsable / Contact *</label><input type="text" id="ownerName"></div>
-      <div class="field"><label class="field-label">Email *</label><input type="email" id="email" placeholder="contact@votre-site.fr"></div>
-      <div class="field"><label class="field-label">Telephone</label><input type="tel" id="phone" placeholder="06 XX XX XX XX"></div>
+      <div class="section-title">Vous et votre entreprise</div>
+      <div class="section-sub">Quelques infos pour que je prépare votre projet.</div>
+      <div class="field"><label class="field-label" for="companyName">Nom de l'entreprise <span class="req">*</span></label><input type="text" id="companyName" required></div>
+      <div class="field"><label class="field-label" for="ownerName">Votre nom <span class="req">*</span></label><input type="text" id="ownerName" autocomplete="name" required></div>
+      <div class="field"><label class="field-label" for="email">E-mail <span class="req">*</span></label><input type="email" id="email" autocomplete="email" placeholder="vous@exemple.fr" required></div>
+      <div class="field"><label class="field-label" for="phone">Téléphone <span class="req">*</span></label><input type="tel" id="phone" autocomplete="tel" placeholder="06 12 34 56 78" required></div>
       <div class="field">
-        <label class="field-label">Secteur d'activite *</label>
-        <select id="sector">
-          <option value="">Selectionner...</option>
-          <option>BTP / Artisan (plombier, electricien, chauffagiste)</option>
-          <option>Macon / Couvreur / Charpentier</option>
-          <option>Paysagiste / Elagueur / Menuisier</option>
+        <label class="field-label" for="sector">Votre métier <span class="req">*</span></label>
+        <select id="sector" required data-other="sectorOther">
+          <option value="">Sélectionner…</option>
+          <option>Plombier / Électricien / Chauffagiste</option>
+          <option>Maçon / Couvreur / Charpentier</option>
+          <option>Menuisier / Paysagiste / Élagueur</option>
           <option>Garage / Carrosserie</option>
-          <option>Kine / Osteo / Sophrologue / Bien-etre</option>
+          <option>Kiné / Ostéo / Sophrologue / Bien-être</option>
           <option>Coach sportif</option>
-          <option>Photographe / Videaste</option>
           <option>Consultant / Formateur / Coach business</option>
-          <option>Commerce / Niche</option>
+          <option>Photographe / Vidéaste</option>
+          <option>Commerce / Boutique</option>
           <option>Autre</option>
         </select>
+        <input type="text" id="sectorOther" class="other" placeholder="Précisez votre métier (ex : infirmier, fleuriste…)">
       </div>
-      <div class="btn-row"><button class="btn btn-primary" onclick="goTo(2)">Suivant</button></div>
+      <div class="field"><label class="field-label" for="zone">Ville / zone d'intervention <span class="req">*</span></label><input type="text" id="zone" placeholder="Ex : Le Mans et 30 km autour" required></div>
+      <div class="error" id="err-1"></div>
+      <div class="btn-row"><button class="btn btn-primary" onclick="next(2)">Suivant</button></div>
     </div>
 
     <div class="step" id="step-2">
-      <div class="section-title">Votre projet web</div>
-      <div class="field"><label class="field-label">Avez-vous un site web actuellement ?</label><input type="text" id="currentWebsite" placeholder="URL ou laisser vide si non"></div>
+      <div class="section-title">Votre présence en ligne</div>
+      <div class="section-sub">Ce que vous avez déjà, pour partir de là.</div>
+      <div class="field"><label class="field-label" for="currentWebsite">Avez-vous déjà un site ?</label><input type="text" id="currentWebsite" placeholder="Adresse du site, ou laissez vide si vous n'en avez pas"></div>
       <div class="field">
-        <label class="field-label">Objectif principal du site *</label>
-        <select id="objective">
-          <option value="">Selectionner...</option>
-          <option>Presenter l'entreprise (vitrine / credibilite)</option>
-          <option>Generer des demandes de devis</option>
-          <option>Informer et fideliser les clients</option>
-          <option>Permettre la prise de rendez-vous</option>
-          <option>Autre</option>
+        <label class="field-label" for="domain">Avez-vous un nom de domaine (ex : monentreprise.fr) ?</label>
+        <select id="domain">
+          <option value="">Sélectionner…</option>
+          <option>Oui</option>
+          <option>Non</option>
+          <option>Je ne sais pas</option>
         </select>
       </div>
-      <div class="field"><label class="field-label">Qui est votre public cible ?</label><textarea id="targetAudience" placeholder="Ex: particuliers en Sarthe, professionnels BTP..."></textarea></div>
-      <div class="field"><label class="field-label">Sites web que vous aimez / concurrents ?</label><textarea id="competitors" placeholder="Liens ou noms - notez ce qui vous plait"></textarea></div>
+      <div class="field">
+        <label class="field-label" for="gbp">Avez-vous une fiche Google (celle qui s'affiche quand on cherche votre nom) ?</label>
+        <select id="gbp">
+          <option value="">Sélectionner…</option>
+          <option>Oui</option>
+          <option>Non</option>
+          <option>Je ne sais pas</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label" for="objective">Objectif principal du site <span class="req">*</span></label>
+        <select id="objective" required data-other="objectiveOther">
+          <option value="">Sélectionner…</option>
+          <option>Être trouvé sur Google</option>
+          <option>Recevoir des demandes de devis</option>
+          <option>Présenter mon entreprise et inspirer confiance</option>
+          <option>Montrer mes réalisations</option>
+          <option>Autre</option>
+        </select>
+        <input type="text" id="objectiveOther" class="other" placeholder="Précisez votre objectif">
+      </div>
+      <div class="field"><label class="field-label" for="targetAudience">Qui sont vos clients ?</label><textarea id="targetAudience" placeholder="Ex : particuliers autour du Mans, propriétaires de maisons anciennes…"></textarea></div>
+      <div class="field"><label class="field-label" for="competitors">Des sites que vous aimez (ou ceux de concurrents) ?</label><textarea id="competitors" placeholder="Liens ou noms, et ce qui vous plaît dedans"></textarea></div>
+      <div class="error" id="err-2"></div>
       <div class="btn-row">
-        <button class="btn btn-secondary" onclick="goTo(1)">Precedent</button>
-        <button class="btn btn-primary" onclick="goTo(3)">Suivant</button>
+        <button class="btn btn-secondary" onclick="goTo(1)">Précédent</button>
+        <button class="btn btn-primary" onclick="next(3)">Suivant</button>
       </div>
     </div>
 
     <div class="step" id="step-3">
-      <div class="section-title">Specifications</div>
+      <div class="section-title">Votre projet</div>
+      <div class="section-sub">Pas de panique si vous hésitez, on en parle ensemble.</div>
       <div class="field">
-        <label class="field-label">Budget estime *</label>
-        <select id="budget">
-          <option value="">Selectionner...</option>
-          <option>Vitrine — 500 €</option>
-          <option>Visibilite — 750 € (SEO avance + Google Business)</option>
-          <option>Sur-mesure — a partir de 1 000 €</option>
-          <option>Pas encore defini</option>
+        <label class="field-label" for="budget">Formule envisagée <span class="req">*</span></label>
+        <select id="budget" required>
+          <option value="">Sélectionner…</option>
+          <option>Vitrine — 500 € (1 page)</option>
+          <option>Visibilité — 750 € (jusqu'à 3 pages + fiches Google, Bing et Apple Plans)</option>
+          <option>Sur-mesure — à partir de 1 000 € (jusqu'à 5 pages)</option>
+          <option>Je ne sais pas encore, conseillez-moi</option>
         </select>
       </div>
       <div class="field">
-        <label class="field-label">Delai souhaite *</label>
+        <label class="field-label" for="pages">Nombre de pages</label>
+        <select id="pages">
+          <option value="">Sélectionner…</option>
+          <option>1 page</option>
+          <option>Jusqu'à 3 pages</option>
+          <option>Jusqu'à 5 pages</option>
+          <option>Plus de 5 pages</option>
+          <option>Je ne sais pas</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label" for="timeline">Quand souhaitez-vous votre site ?</label>
         <select id="timeline">
-          <option value="">Selectionner...</option>
-          <option>Urgent (3-5 jours)</option>
-          <option>Standard (7 jours ouvrés)</option>
-          <option>Flexible (pas presse)</option>
+          <option value="">Sélectionner…</option>
+          <option>Dès que possible (7 jours ouvrés après réception de vos contenus)</option>
+          <option>Dans le mois</option>
+          <option>Pas pressé</option>
         </select>
       </div>
-      <div class="field"><label class="field-label">Nombre de pages souhaite</label><input type="text" id="pages" placeholder="Ex: 5-8 pages"></div>
       <div class="field">
-        <label class="field-label">Avez-vous des photos / visuels pour votre site ?</label>
+        <label class="field-label" for="content">Avez-vous des photos de votre travail ?</label>
         <select id="content">
-          <option value="">Selectionner...</option>
-          <option>Oui, j'ai mes photos</option>
-          <option>Non, je n'en ai pas</option>
+          <option value="">Sélectionner…</option>
+          <option>Oui, plein</option>
+          <option>Quelques-unes</option>
+          <option>Non</option>
         </select>
       </div>
+      <div class="field">
+        <label class="field-label" for="logo">Avez-vous un logo ?</label>
+        <select id="logo">
+          <option value="">Sélectionner…</option>
+          <option>Oui</option>
+          <option>Non</option>
+          <option>Oui, mais il faudrait le refaire</option>
+        </select>
+      </div>
+      <div class="error" id="err-3"></div>
       <div class="btn-row">
-        <button class="btn btn-secondary" onclick="goTo(2)">Precedent</button>
-        <button class="btn btn-primary" onclick="goTo(4)">Suivant</button>
+        <button class="btn btn-secondary" onclick="goTo(2)">Précédent</button>
+        <button class="btn btn-primary" onclick="next(4)">Suivant</button>
       </div>
     </div>
 
     <div class="step" id="step-4">
-      <div class="section-title">Services additionnels</div>
-      <div class="field">
-        <label class="field-label" style="margin-bottom:12px">Cochez ce qui vous interesse :</label>
-        <div class="checkbox-grid">
-          <label class="checkbox-item"><input type="checkbox" value="Referencement naturel (SEO)"> Referencement (SEO)</label>
-          <label class="checkbox-item"><input type="checkbox" value="Google Business / Maps"> Google Business / Maps</label>
-          <label class="checkbox-item"><input type="checkbox" value="Maintenance mensuelle"> Maintenance mensuelle</label>
-          <label class="checkbox-item"><input type="checkbox" value="Galerie réalisations"> Galerie réalisations</label>
-          <label class="checkbox-item"><input type="checkbox" value="Formulaire de devis avancé"> Formulaire de devis avancé</label>
-          <label class="checkbox-item"><input type="checkbox" value="Section témoignages"> Section témoignages</label>
-        </div>
+      <div class="section-title">Options</div>
+      <div class="section-sub">Cochez ce qui vous intéresse, rien n'est obligatoire.</div>
+      <div class="checks">
+        <label class="check"><input type="checkbox" value="Page supplémentaire (300 €/page)"><span>Page supplémentaire<small>300 € la page, au-delà de votre formule</small></span></label>
+        <label class="check"><input type="checkbox" value="Rédaction des textes (250 €)"><span>Rédaction des textes<small>250 €, j'écris les textes à partir de vos infos</small></span></label>
+        <label class="check"><input type="checkbox" value="Blog avec 3 articles (350 €)"><span>Blog avec 3 articles<small>350 €, utile pour le référencement</small></span></label>
+        <label class="check"><input type="checkbox" value="Maintenance (35 €/mois)"><span>Maintenance<small>35 €/mois : hébergement, sécurité, 3 modifications par mois</small></span></label>
       </div>
       <div class="btn-row">
-        <button class="btn btn-secondary" onclick="goTo(3)">Precedent</button>
-        <button class="btn btn-primary" onclick="goTo(5)">Suivant</button>
+        <button class="btn btn-secondary" onclick="goTo(3)">Précédent</button>
+        <button class="btn btn-primary" onclick="next(5)">Suivant</button>
       </div>
     </div>
 
     <div class="step" id="step-5">
-      <div class="section-title">Remarques</div>
-      <div class="field"><label class="field-label">Y a-t-il autre chose a nous dire ?</label><textarea id="remarks" rows="6" placeholder="Contraintes, charte graphique, logo disponible, autres demandes..."></textarea></div>
+      <div class="section-title">Pour finir</div>
+      <div class="section-sub">Deux dernières questions.</div>
+      <div class="field">
+        <label class="field-label" for="source">Comment avez-vous connu Studio FTT ? <span class="req">*</span></label>
+        <select id="source" required>
+          <option value="">Sélectionner…</option>
+          <option>Nathan m'a appelé</option>
+          <option>Recommandé par quelqu'un</option>
+          <option>Instagram</option>
+          <option>LinkedIn</option>
+          <option>Recherche Google</option>
+          <option>Autre</option>
+        </select>
+        <input type="text" id="sourceReferrer" class="other" placeholder="Par qui ? (nom de la personne)">
+        <input type="text" id="sourceOther" class="other" placeholder="Précisez">
+      </div>
+      <div class="field"><label class="field-label" for="remarks">Autre chose à me dire ?</label><textarea id="remarks" rows="5" placeholder="Contraintes, couleurs, idées, questions…"></textarea></div>
+      <div class="error" id="err-5"></div>
+      <p class="legal-note">Vos informations servent uniquement à préparer votre devis. <a href="https://studioftt.fr/confidentialite" target="_blank" rel="noopener">Politique de confidentialité</a></p>
       <div class="btn-row">
-        <button class="btn btn-secondary" onclick="goTo(4)">Precedent</button>
+        <button class="btn btn-secondary" onclick="goTo(4)">Précédent</button>
         <button class="btn btn-primary" id="submitBtn" onclick="submitForm()">Envoyer ma fiche</button>
       </div>
     </div>
 
     <div class="step" id="step-success">
       <div class="success">
-        <div class="check">✓</div>
+        <div class="tick">✓</div>
         <h2 id="success-name">Merci !</h2>
-        <p>Votre fiche projet a bien ete envoyee. Notre equipe vous contactera rapidement.</p>
-        <div class="btn-row" style="justify-content:center">
-          <button class="btn btn-secondary" onclick="downloadTxt()" style="flex:0 0 auto;padding:13px 28px">Telecharger ma fiche</button>
-        </div>
+        <p>Votre fiche est bien arrivée. Je la lis et je vous recontacte très vite pour en parler.<br>Nathan, Studio FTT</p>
+        <button class="btn btn-secondary" onclick="downloadTxt()" style="flex:0 0 auto;padding:13px 28px">Télécharger une copie de ma fiche</button>
       </div>
     </div>
-
   </div>
-  <p style="text-align:center;font-size:12px;color:#bbb;margin-top:1.5rem">Studio FTT — Creation de sites web</p>
-  <p style="text-align:center;font-size:11px;margin-top:0.75rem;margin-bottom:2rem">
-    <button onclick="openModal('ml')" style="background:none;border:none;color:#bbb;cursor:pointer;font-size:11px;text-decoration:underline;padding:0">Mentions legales</button>
-    &nbsp;·&nbsp;
-    <button onclick="openModal('rgpd')" style="background:none;border:none;color:#bbb;cursor:pointer;font-size:11px;text-decoration:underline;padding:0">Donnees personnelles</button>
-    &nbsp;·&nbsp;
-    <button onclick="openModal('cgv')" style="background:none;border:none;color:#bbb;cursor:pointer;font-size:11px;text-decoration:underline;padding:0">CGV</button>
-  </p>
-</div>
 
-<!-- MODAL -->
-<div id="modal-overlay" onclick="closeModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;padding:1rem;overflow-y:auto">
-  <div onclick="event.stopPropagation()" style="background:#fff;border-radius:8px;max-width:600px;margin:2rem auto;padding:2rem;font-size:12px;color:#555;line-height:1.7;position:relative">
-    <button onclick="closeModal()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:20px;cursor:pointer;color:#999;line-height:1">×</button>
-    <div id="modal-content"></div>
+  <div class="footer">
+    Studio FTT, création de sites internet<br>
+    <a href="https://studioftt.fr/mentions-legales" target="_blank" rel="noopener">Mentions légales</a> ·
+    <a href="https://studioftt.fr/confidentialite" target="_blank" rel="noopener">Confidentialité</a> ·
+    <a href="https://studioftt.fr/cgv" target="_blank" rel="noopener">CGV</a>
   </div>
 </div>
-
-<script>
-var MODALS = {
-  ml: '<h2 style="font-size:16px;font-weight:600;color:#0d0d0d;margin-bottom:1.25rem">Mentions légales</h2>'
-    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Éditeur</strong><br>Nathan Fautrat — Studio FTT<br>7 rue du Fromenteau, 72270 Arthezé, France<br>SIRET : 10404864000015<br>Email : <a href="mailto:contactstudioftt@gmail.com" style="color:#FF5A47">contactstudioftt@gmail.com</a></p>'
-    + '<p><strong style="color:#333">Hébergement</strong><br>Cloudflare Inc., 101 Townsend Street, San Francisco CA 94107, USA</p>',
-
-  rgpd: '<h2 style="font-size:16px;font-weight:600;color:#0d0d0d;margin-bottom:1.25rem">Données personnelles</h2>'
-    + '<p style="margin-bottom:0.75rem">Les informations saisies dans ce formulaire (nom, email, téléphone, données projet) sont collectées uniquement pour répondre à votre demande et établir un devis.</p>'
-    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Conservation</strong><br>3 ans maximum. Elles ne sont jamais revendues ni transmises à des tiers.</p>'
-    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Vos droits (RGPD)</strong><br>Accès, rectification, suppression, portabilité. Contactez-nous : <a href="mailto:contactstudioftt@gmail.com" style="color:#FF5A47">contactstudioftt@gmail.com</a></p>'
-    + '<p><strong style="color:#333">Réclamation</strong><br>Auprès de la CNIL : <a href="https://www.cnil.fr" target="_blank" style="color:#FF5A47">cnil.fr</a></p>',
-
-  cgv: '<h2 style="font-size:16px;font-weight:600;color:#0d0d0d;margin-bottom:1.25rem">Conditions Générales de Vente</h2>'
-    + '<p style="margin-bottom:0.5rem;font-size:11px;color:#999">Version en vigueur depuis le 3 mai 2026.</p>'
-    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Art. 1 — Objet</strong><br>Les présentes CGV régissent l\'ensemble des prestations de Studio FTT (Nathan Fautrat, SIRET 10404864000015) : création de sites web sur mesure, options associées (SEO, Google Business), hébergement, maintenance et campagnes.</p>'
-    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Art. 2 — Devis &amp; commande</strong><br>Tout devis est valable 30 jours. La commande est ferme dès l\'acceptation du devis (signature, retour email ou paiement de l\'acompte).</p>'
-    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Art. 3 — Tarifs</strong><br>Prix en euros, nets de taxes. TVA non applicable, art. 293 B du CGI (micro-entreprise).</p>'
-    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Art. 4 — Paiement</strong><br>Création de site (one-shot) : acompte de 30 % à la signature, solde de 70 % avant mise en ligne. Le site est présenté sur URL de prévisualisation ; mise en ligne et transfert des accès après règlement complet. Prestations récurrentes (maintenance, campagnes) : mensuel, sans engagement. Moyens : virement bancaire, lien Qonto.</p>'
-    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Art. 5 — Délais</strong><br>Délai standard : 2 semaines à compter de la réception de l\'acompte ET des contenus client. Tout retard de fourniture des contenus suspend le délai d\'autant.</p>'
-    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Art. 6 — Modifications</strong><br>1 modification gratuite incluse à la livraison. Au-delà : 50 €/h sur devis préalable. Avec maintenance (35 €/mois) : 3 modifications incluses/mois.</p>'
-    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Art. 7 — Hébergement</strong><br>Hébergement offert la première année (Cloudflare Pages). Au-delà : inclus dans la maintenance (35 €/mois), ou forfait hébergement seul à 10 €/mois sans maintenance.</p>'
-    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Art. 8 — Propriété intellectuelle</strong><br>Le code et les designs restent la propriété de Studio FTT. Le client dispose d\'une licence d\'usage non-exclusive. Les contenus fournis par le client (textes, photos, logo) restent sa propriété. Le nom de domaine reste la propriété du client.</p>'
-    + '<p style="margin-bottom:0.75rem"><strong style="color:#333">Art. 9 — Pénalités de retard</strong><br>Tout retard de paiement entraîne des pénalités de 3× le taux légal, de plein droit, sans rappel préalable. Indemnité forfaitaire de recouvrement : 40 € (art. D441-5 C. com.).</p>'
-    + '<p><strong style="color:#333">Art. 10 — Droit applicable</strong><br>Droit français. Tribunal de Commerce du Mans (72) compétent en cas de litige.</p>'
-};
-
-function openModal(key) {
-  document.getElementById('modal-content').innerHTML = MODALS[key];
-  document.getElementById('modal-overlay').style.display = 'block';
-  document.body.style.overflow = 'hidden';
-}
-function closeModal() {
-  document.getElementById('modal-overlay').style.display = 'none';
-  document.body.style.overflow = '';
-}
-</script>
 
 <script>
 var cur = 1;
+var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+var val = function (id) { return (document.getElementById(id).value || '').trim(); };
+
+// « Autre » → champ « Précisez »
+document.querySelectorAll('select[data-other]').forEach(function (s) {
+  s.addEventListener('change', function () {
+    document.getElementById(s.dataset.other).classList.toggle('show', s.value === 'Autre');
+  });
+});
+document.getElementById('source').addEventListener('change', function () {
+  document.getElementById('sourceReferrer').classList.toggle('show', this.value === 'Recommandé par quelqu\'un');
+  document.getElementById('sourceOther').classList.toggle('show', this.value === 'Autre');
+});
 
 function goTo(n) {
   document.getElementById('step-' + cur).classList.remove('active');
   cur = n;
   document.getElementById('step-' + cur).classList.add('active');
-  document.getElementById('step-indicator').textContent = 'Etape ' + n + ' sur 5';
+  document.getElementById('step-indicator').textContent = 'Étape ' + n + ' sur 5';
   document.getElementById('progress').style.width = (n / 5 * 100) + '%';
   window.scrollTo(0, 0);
 }
 
+function validate(step) {
+  var box = document.getElementById('step-' + step);
+  var err = document.getElementById('err-' + step);
+  var missing = [];
+  box.querySelectorAll('[required]').forEach(function (el) {
+    var bad = !el.value.trim() || (el.type === 'email' && !EMAIL_RE.test(el.value.trim()));
+    el.classList.toggle('invalid', bad);
+    if (bad) missing.push(el);
+  });
+  box.querySelectorAll('select[data-other]').forEach(function (s) {
+    var o = document.getElementById(s.dataset.other);
+    var bad = s.value === 'Autre' && !o.value.trim();
+    o.classList.toggle('invalid', bad);
+    if (bad) missing.push(o);
+  });
+  if (step === 5) {
+    var r = document.getElementById('sourceReferrer'), o = document.getElementById('sourceOther'), src = val('source');
+    var badR = src === 'Recommandé par quelqu\'un' && !r.value.trim();
+    var badO = src === 'Autre' && !o.value.trim();
+    r.classList.toggle('invalid', badR); o.classList.toggle('invalid', badO);
+    if (badR) missing.push(r); if (badO) missing.push(o);
+  }
+  if (err) {
+    err.textContent = missing.length ? 'Merci de compléter les champs en rouge.' : '';
+    err.classList.toggle('show', missing.length > 0);
+  }
+  if (missing.length) missing[0].focus();
+  return missing.length === 0;
+}
+
+function next(n) { if (validate(cur)) goTo(n); }
+
+function withOther(selectId, otherId) {
+  var v = val(selectId);
+  return v === 'Autre' ? 'Autre : ' + val(otherId) : v;
+}
+
 function getChecked() {
   var v = [];
-  document.querySelectorAll('#step-4 input[type=checkbox]:checked').forEach(function(b) { v.push(b.value); });
-  return v.length ? v.join(', ') : 'Aucun';
+  document.querySelectorAll('#step-4 input[type=checkbox]:checked').forEach(function (b) { v.push(b.value); });
+  return v.length ? v.join(', ') : 'Aucune';
+}
+
+function getSource() {
+  var s = val('source');
+  if (s === 'Recommandé par quelqu\'un') return s + ' : ' + val('sourceReferrer');
+  if (s === 'Autre') return 'Autre : ' + val('sourceOther');
+  return s;
+}
+
+function collect() {
+  return {
+    Entreprise: val('companyName'),
+    Responsable: val('ownerName'),
+    email: val('email'),
+    Telephone: val('phone'),
+    Metier: withOther('sector', 'sectorOther'),
+    Zone: val('zone'),
+    Site_actuel: val('currentWebsite') || 'Aucun',
+    Nom_de_domaine: val('domain') || 'Non renseigné',
+    Fiche_Google: val('gbp') || 'Non renseigné',
+    Objectif: withOther('objective', 'objectiveOther'),
+    Clients: val('targetAudience'),
+    Sites_aimes: val('competitors'),
+    Formule: val('budget'),
+    Pages: val('pages') || 'Non renseigné',
+    Delai: val('timeline') || 'Non renseigné',
+    Photos: val('content') || 'Non renseigné',
+    Logo: val('logo') || 'Non renseigné',
+    Options: getChecked(),
+    Source: getSource(),
+    Remarques: val('remarks') || 'Aucune'
+  };
 }
 
 function submitForm() {
+  if (!validate(5)) return;
+  if (val('gotcha')) return;
   var btn = document.getElementById('submitBtn');
-  btn.textContent = 'Envoi en cours...';
+  btn.textContent = 'Envoi en cours…';
   btn.disabled = true;
-
-  var data = {
-    Entreprise:   document.getElementById('companyName').value,
-    Responsable:  document.getElementById('ownerName').value,
-    Email:        document.getElementById('email').value,
-    Telephone:    document.getElementById('phone').value,
-    Secteur:      document.getElementById('sector').value,
-    Site_actuel:  document.getElementById('currentWebsite').value || 'Aucun',
-    Objectif:     document.getElementById('objective').value,
-    Public_cible: document.getElementById('targetAudience').value,
-    Concurrents:  document.getElementById('competitors').value,
-    Budget:       document.getElementById('budget').value,
-    Delai:        document.getElementById('timeline').value,
-    Nb_pages:     document.getElementById('pages').value,
-    Photos:       document.getElementById('content').value,
-    Services:     getChecked(),
-    Remarques:    document.getElementById('remarks').value || 'Aucune'
-  };
-
+  var data = collect();
+  data._subject = 'Fiche projet : ' + data.Entreprise + ' (' + data.Metier + ')';
   fetch('https://formspree.io/f/mrerogor', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify(data)
   })
-  .then(function(r) { return r.json(); })
-  .then(function(res) {
-    if (res.ok || res.next) {
-      showSuccess();
-    } else {
-      throw new Error('Erreur Formspree');
-    }
-  })
-  .catch(function() {
+  .then(function (r) { if (!r.ok) throw new Error('envoi'); return r.json(); })
+  .then(showSuccess)
+  .catch(function () {
     btn.textContent = 'Envoyer ma fiche';
     btn.disabled = false;
-    alert('Une erreur est survenue. Verifiez votre connexion et reessayez.');
+    var err = document.getElementById('err-5');
+    err.textContent = 'L\'envoi n\'a pas marché. Vérifiez votre connexion et réessayez, ou écrivez-moi à contact@studioftt.fr.';
+    err.classList.add('show');
   });
 }
 
 function showSuccess() {
-  var n = document.getElementById('ownerName').value || 'vous';
-  document.getElementById('success-name').textContent = 'Merci ' + n + ' !';
+  document.getElementById('success-name').textContent = 'Merci ' + (val('ownerName') || '') + ' !';
   document.getElementById('step-5').classList.remove('active');
   document.getElementById('step-success').classList.add('active');
-  document.getElementById('step-indicator').textContent = 'Formulaire envoye';
+  document.getElementById('step-indicator').textContent = 'Fiche envoyée';
   document.getElementById('progress').style.width = '100%';
   window.scrollTo(0, 0);
 }
 
 function downloadTxt() {
-  var lines = [
-    'FICHE PROJET - ' + document.getElementById('companyName').value,
-    '================================================',
-    '',
-    'INFORMATIONS',
-    'Entreprise   : ' + document.getElementById('companyName').value,
-    'Responsable  : ' + document.getElementById('ownerName').value,
-    'Email        : ' + document.getElementById('email').value,
-    'Telephone    : ' + document.getElementById('phone').value,
-    'Secteur      : ' + document.getElementById('sector').value,
-    '',
-    'PROJET WEB',
-    'Site actuel  : ' + (document.getElementById('currentWebsite').value || 'Aucun'),
-    'Objectif     : ' + document.getElementById('objective').value,
-    'Public cible : ' + document.getElementById('targetAudience').value,
-    'Concurrents  : ' + document.getElementById('competitors').value,
-    '',
-    'SPECIFICATIONS',
-    'Budget       : ' + document.getElementById('budget').value,
-    'Delai        : ' + document.getElementById('timeline').value,
-    'Nb pages     : ' + document.getElementById('pages').value,
-    'Photos       : ' + document.getElementById('content').value,
-    '',
-    'SERVICES',
-    getChecked(),
-    '',
-    'REMARQUES',
-    document.getElementById('remarks').value || 'Aucune'
-  ];
+  var d = collect();
+  var lines = ['FICHE PROJET — ' + d.Entreprise, '================================================', ''];
+  Object.keys(d).forEach(function (k) { lines.push(k.replace(/_/g, ' ') + ' : ' + d[k]); });
   var a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([lines.join('\n')], {type: 'text/plain'}));
-  a.download = 'fiche-projet-' + (document.getElementById('companyName').value || 'client').replace(/\s+/g, '-') + '.txt';
+  a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' }));
+  a.download = 'fiche-projet-' + (d.Entreprise || 'client').replace(/\s+/g, '-') + '.txt';
   a.click();
 }
 </script>
-
-
-</body></html>
+</body>
+</html>
